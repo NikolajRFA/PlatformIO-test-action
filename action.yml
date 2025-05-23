@@ -1,7 +1,8 @@
 name: PlatformIO Test
 description: Action for running PlatformIO tests natively.
-iconName: check
-iconColor: orange
+branding:
+  icon: 'check'
+  color: 'orange'
 
 on: [push]
 
