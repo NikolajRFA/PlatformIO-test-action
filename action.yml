@@ -5,18 +5,28 @@ branding:
   color: 'orange'
 
 runs:
-  - uses: actions/checkout@v4
-  - uses: actions/cache@v4
-    with:
-      path: |
-        ~/.cache/pip
-        ~/.platformio/.cache
-      key: ${{ runner.os }}-pio
-  - uses: actions/setup-python@v5
-    with:
-      python-version: '3.11'
-  - name: Install PlatformIO Core
-    run: pip install --upgrade platformio
+  using: composite
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-  - name: Test PlatformIO Project
-    run: pio test -e native
+    - name: Cache Dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/pip
+          ~/.platformio/.cache
+        key: ${{ runner.os }}-pio
+
+    - name: Set Up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install PlatformIO Core
+      run: pip install --upgrade platformio
+      shell: bash
+
+    - name: Test PlatformIO Project
+      run: pio test -e native
+      shell: bash
